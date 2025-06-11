@@ -30,6 +30,13 @@ public class HotelController {
     return hotelService.getHotelById(id);
   }
 
+  @DeleteMapping("/hotel/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public void deleteHotel(@PathVariable Long id) {
+    hotelService.deleteHotelById(id);
+  }
+
+
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Hotel createHotel(@RequestBody Hotel hotel) {

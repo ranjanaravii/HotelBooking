@@ -55,4 +55,11 @@ class DefaultHotelService implements HotelService {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
   }
+
+  public void deleteHotelById(Long id) {
+    Hotel hotel = hotelRepository.findById(id)
+            .orElseThrow(() -> new ElementNotFoundException("Hotel not found with id: " + id));
+    hotel.setDeleted(true);
+    hotelRepository.save(hotel);
+  }
 }

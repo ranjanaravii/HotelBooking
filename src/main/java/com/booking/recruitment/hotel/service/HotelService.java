@@ -13,4 +13,6 @@ public interface HotelService {
   Hotel createNewHotel(Hotel hotel);
 
   ResponseEntity<Hotel> getHotelById(Long id);
+
+  void deleteHotelById(Long id);
 }

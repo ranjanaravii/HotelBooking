@@ -1,10 +1,13 @@
 package com.booking.recruitment.hotel.service.impl;
 
 import com.booking.recruitment.hotel.exception.BadRequestException;
+import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.repository.HotelRepository;
 import com.booking.recruitment.hotel.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +41,18 @@ class DefaultHotelService implements HotelService {
     }
 
     return hotelRepository.save(hotel);
+  }
+
+  @Override
+  public ResponseEntity<Hotel> getHotelById(Long id) {
+    try {
+      Hotel hotel = hotelRepository.findById(id)
+              .orElseThrow(() -> new ElementNotFoundException("Hotel not found with ID: " + id));
+      return ResponseEntity.ok(hotel);
+    } catch (ElementNotFoundException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    } catch (Exception ex) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
   }
 }

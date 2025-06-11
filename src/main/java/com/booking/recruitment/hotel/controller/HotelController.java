@@ -4,6 +4,7 @@ import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,11 @@ public class HotelController {
   @ResponseStatus(HttpStatus.OK)
   public List<Hotel> getAllHotels() {
     return hotelService.getAllHotels();
+  }
+
+  @GetMapping("/hotel/{id}")
+  public ResponseEntity<Hotel> getHotelById(@PathVariable Long id) {
+    return hotelService.getHotelById(id);
   }
 
   @PostMapping

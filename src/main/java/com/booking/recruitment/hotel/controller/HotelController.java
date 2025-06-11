@@ -25,12 +25,12 @@ public class HotelController {
     return hotelService.getAllHotels();
   }
 
-  @GetMapping("/hotel/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<Hotel> getHotelById(@PathVariable Long id) {
     return hotelService.getHotelById(id);
   }
 
-  @DeleteMapping("/hotel/{id}")
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteHotel(@PathVariable Long id) {
     hotelService.deleteHotelById(id);

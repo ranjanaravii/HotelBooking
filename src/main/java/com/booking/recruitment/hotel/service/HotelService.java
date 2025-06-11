@@ -15,4 +15,6 @@ public interface HotelService {
   ResponseEntity<Hotel> getHotelById(Long id);
 
   void deleteHotelById(Long id);
+
+  List<Hotel> getTop3ClosestHotels(Long cityId);
 }

@@ -1,5 +1,6 @@
 package com.booking.recruitment.hotel.controller;
 
+import com.booking.recruitment.hotel.common.Constants;
 import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class HotelController {
     return hotelService.getAllHotels();
   }
 
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public Hotel createHotel(@RequestBody Hotel hotel) {
+    return hotelService.createNewHotel(hotel);
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<Hotel> getHotelById(@PathVariable Long id) {
     return hotelService.getHotelById(id);
@@ -36,10 +43,15 @@ public class HotelController {
     hotelService.deleteHotelById(id);
   }
 
-
-  @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public Hotel createHotel(@RequestBody Hotel hotel) {
-    return hotelService.createNewHotel(hotel);
+  @GetMapping("/search/{cityId}")
+  public ResponseEntity<List<Hotel>> searchHotelsByDistance(
+          @PathVariable Long cityId,
+          @RequestParam(name = "sortBy", required = false) String sortBy) {
+    if (Constants.DISTANCE.equalsIgnoreCase(sortBy)) {
+      List<Hotel> topHotels = hotelService.getTop3ClosestHotels(cityId);
+      return ResponseEntity.ok(topHotels);
+    } else {
+      return ResponseEntity.badRequest().build();
+    }
   }
 }

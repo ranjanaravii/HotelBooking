@@ -2,14 +2,18 @@ package com.booking.recruitment.hotel.service.impl;
 
 import com.booking.recruitment.hotel.exception.BadRequestException;
 import com.booking.recruitment.hotel.exception.ElementNotFoundException;
+import com.booking.recruitment.hotel.model.City;
 import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.repository.HotelRepository;
+import com.booking.recruitment.hotel.service.CityService;
 import com.booking.recruitment.hotel.service.HotelService;
+import com.booking.recruitment.hotel.utility.DistanceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,9 +21,12 @@ import java.util.stream.Collectors;
 class DefaultHotelService implements HotelService {
   private final HotelRepository hotelRepository;
 
+  private final CityService cityService;
+
   @Autowired
-  DefaultHotelService(HotelRepository hotelRepository) {
+  DefaultHotelService(HotelRepository hotelRepository, CityService cityService) {
     this.hotelRepository = hotelRepository;
+      this.cityService = cityService;
   }
 
   @Override
@@ -62,4 +69,18 @@ class DefaultHotelService implements HotelService {
     hotel.setDeleted(true);
     hotelRepository.save(hotel);
   }
+
+  public List<Hotel> getTop3ClosestHotels(Long cityId) {
+    City city = cityService.getCityById(cityId);
+    //Exclude logically deleted
+    List<Hotel> hotels = hotelRepository.findByCityIdAndDeletedFalse(cityId);
+    return hotels.stream()
+            .sorted(Comparator.comparingDouble(hotel ->
+                    DistanceUtil.calculateDistance(
+                            hotel.getLatitude(), hotel.getLongitude(),
+                            city.getCityCentreLatitude(), city.getCityCentreLongitude())))
+            .limit(3)
+            .collect(Collectors.toList());
+  }
+
 }

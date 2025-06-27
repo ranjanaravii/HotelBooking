@@ -1,7 +1,8 @@
 package com.booking.recruitment.hotel.fixtures;
 
-import com.booking.recruitment.hotel.model.Hotel;
 import org.springframework.stereotype.Component;
+
+import com.booking.hotel.model.Hotel;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,9 +1,9 @@
 package com.booking.recruitment.hotel.controller;
 
-import com.booking.recruitment.hotel.model.City;
-import com.booking.recruitment.hotel.model.Hotel;
-import com.booking.recruitment.hotel.repository.CityRepository;
-import com.booking.recruitment.hotel.repository.HotelRepository;
+import com.booking.hotel.model.City;
+import com.booking.hotel.model.Hotel;
+import com.booking.hotel.repository.CityRepository;
+import com.booking.hotel.repository.HotelRepository;
 import com.booking.testing.SlowTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;

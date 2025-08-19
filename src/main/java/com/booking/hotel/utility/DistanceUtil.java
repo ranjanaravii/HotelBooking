@@ -1,4 +1,4 @@
-package com.booking.recruitment.hotel.utility;
+package com.booking.hotel.utility;
 
 public class DistanceUtil {
 
